@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  localstack:
+    image: localstack/localstack:2.3.2
+    container_name: notificationhub-localstack
+    ports:
+      - 8566:4566            # LocalStack Edge Proxy
+    environment:
+      - DEBUG=${DEBUG-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DYNAMODB_REMOVE_EXPIRED_ITEMS=1
+    volumes:
+      - "${TMPDIR:-/tmp}/localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./tools/localstack:/etc/localstack/init/ready.d/
+    network_mode: "host"

@@ -1,0 +1,253 @@
+awslocal dynamodb create-table \
+--table-name notifications.tracking \
+--attribute-definitions \
+AttributeName=PK,AttributeType=S \
+AttributeName=SK,AttributeType=S \
+--key-schema \
+AttributeName=PK,KeyType=HASH \
+AttributeName=SK,KeyType=RANGE \
+--provisioned-throughput \
+ReadCapacityUnits=5,WriteCapacityUnits=5
+
+
+aws dynamodb put-item \
+  --table-name notifications.tracking \
+  --item '{
+    "PK": {"S": "org1#1234"},
+    "SK": {"S": "notif#1#inapp#1"},
+    "attr1": {"S": "n1"},
+    "attr2": {"S": "e1"},
+    "attr3": {"S": "inapp"},
+    "attr4": {"S": "org1"},
+    "attr5": {"S": "1234"},
+    "attr6": {"S": "1234"},
+    "attr7": {"S": "enqueued"},
+    "attr8": {"S": "1727415908"},
+    "attr9": {"S": "1727415908"},
+    "attr10":{
+         "M": {
+                  "sender": {"S": "admin"},
+                  "priority": {"S": "high"},
+                   "retries": {"N": "3"}
+                   }
+    }
+  }'
+
+
+awslocal dynamodb put-item \
+  --table-name notifications.tracking \
+  --item '{
+    "PK": {"S": "org1#1234"},
+    "SK": {"S": "notif#e2#inapp#n2"},
+    "attr1": {"S": "n2"},
+    "attr2": {"S": "e2"},
+    "attr3": {"S": "inapp"},
+    "attr4": {"S": "org1"},
+    "attr5": {"S": "1234"},
+    "attr6": {"S": "1234"},
+    "attr7": {"S": "enqueued"},
+    "attr8": {"S": "1727415909"},
+    "attr9": {"S": "1727415909"},
+    "attr10":{
+         "M": {
+                  "sender": {"S": "admin"},
+                  "priority": {"S": "high"},
+                   "retries": {"N": "2"}
+                   }
+    }
+  }'
+
+
+awslocal dynamodb put-item \
+  --table-name notifications.tracking \
+  --item '{
+    "PK": {"S": "org1#1235"},
+    "SK": {"S": "notif#e2#inapp#n4"},
+    "attr1": {"S": "n4"},
+    "attr2": {"S": "e2"},
+    "attr3": {"S": "inapp"},
+    "attr4": {"S": "org1"},
+    "attr5": {"S": "1236"},
+    "attr6": {"S": "1236"},
+    "attr7": {"S": "enqueued"},
+    "attr8": {"S": "1727415911"},
+    "attr9": {"S": "1727415911"},
+    "attr10":{
+         "M": {
+                  "sender": {"S": "admin"},
+                  "priority": {"S": "high"},
+                   "retries": {"N": "2"}
+                   }
+    }
+  }'
+
+awslocal dynamodb put-item \
+  --table-name notifications.tracking \
+  --item '{
+    "PK": {"S": "org1#r@gmail.com"},
+    "SK": {"S": "notif#e3#inapp#n5"},
+    "attr1": {"S": "n5"},
+    "attr2": {"S": "e3"},
+    "attr3": {"S": "inapp"},
+    "attr4": {"S": "org1"},
+    "attr5": {"S": "r@gmail.com"},
+    "attr6": {"S": "1235"},
+    "attr7": {"S": "enqueued"},
+    "attr8": {"S": "1727415912"},
+    "attr9": {"S": "1727415912"},
+    "attr10":{
+         "M": {
+                  "sender": {"S": "admin"},
+                  "priority": {"S": "high"},
+                   "retries": {"N": "2"}
+                   }
+    }
+  }'
+
+
+ awslocal dynamodb query \
+   --table-name notifications.tracking \
+   --key-condition-expression "PK = :pk AND begins_with(SK, :skPrefix)" \
+   --expression-attribute-values '{
+     ":pk": {"S": "org1#1234"},
+     ":skPrefix": {"S": "notif#e2#inapp#"}
+   }'
+
+awslocal dynamodb put-item \
+  --table-name notifications.tracking \
+  --item '{
+    "PK": {"S": "org1#1234"},
+    "SK": {"S": "notif#e2#inapp#n6"},
+    "attr1": {"S": "n6"},
+    "attr2": {"S": "e2"},
+    "attr3": {"S": "inapp"},
+    "attr4": {"S": "org1"},
+    "attr5": {"S": "1234"},
+    "attr6": {"S": "1234"},
+    "attr7": {"S": "enqueued"},
+    "attr8": {"S": "1727415917"},
+    "attr9": {"S": "1727415917"},
+    "attr10":{
+         "M": {
+                  "sender": {"S": "admin"},
+                  "priority": {"S": "high"},
+                   "retries": {"N": "2"}
+                   }
+    }
+  }'
+
+-----------------------------------
+-----------------------------------
+
+awslocal dynamodb put-item \
+  --table-name notifications.tracking \
+  --item '{
+    "PK": {"S": "org1#e1"},
+    "SK": {"S": "notif#inapp#1234#n1"},
+    "attr1": {"S": "n1"},
+    "attr2": {"S": "e1"},
+    "attr3": {"S": "inapp"},
+    "attr4": {"S": "org1"},
+    "attr5": {"S": "1234"},
+    "attr6": {"S": "1234"},
+    "attr7": {"S": "enqueued"},
+    "attr8": {"S": "1727415917"},
+    "attr9": {"S": "1727415917"},
+    "attr10":{
+         "M": {
+                  "sender": {"S": "admin"},
+                  "priority": {"S": "high"},
+                   "retries": {"N": "2"}
+                   }
+    }
+  }'
+
+
+awslocal dynamodb put-item \
+  --table-name notifications.tracking \
+  --item '{
+    "PK": {"S": "org1#e1"},
+    "SK": {"S": "notif#inapp#1235#n2"},
+    "attr1": {"S": "n2"},
+    "attr2": {"S": "e1"},
+    "attr3": {"S": "inapp"},
+    "attr4": {"S": "org1"},
+    "attr5": {"S": "1235"},
+    "attr6": {"S": "1235"},
+    "attr7": {"S": "enqueued"},
+    "attr8": {"S": "1727415918"},
+    "attr9": {"S": "1727415918"},
+    "attr10":{
+         "M": {
+                  "sender": {"S": "admin"},
+                  "priority": {"S": "high"},
+                   "retries": {"N": "2"}
+                   }
+    }
+  }'
+
+
+  awslocal dynamodb put-item \
+    --table-name notifications.tracking \
+    --item '{
+      "PK": {"S": "org1#e1"},
+      "SK": {"S": "notif#email#1235@gmail.com#n3"},
+      "attr1": {"S": "n3"},
+      "attr2": {"S": "e1"},
+      "attr3": {"S": "email"},
+      "attr4": {"S": "org1"},
+      "attr5": {"S": "1235@gmail.com"},
+      "attr6": {"S": "1235"},
+      "attr7": {"S": "enqueued"},
+      "attr8": {"S": "1727415918"},
+      "attr9": {"S": "1727415918"},
+      "attr10":{
+           "M": {
+                    "sender": {"S": "admin"},
+                    "priority": {"S": "high"},
+                     "retries": {"N": "2"}
+                     }
+      }
+    }'
+
+  awslocal dynamodb put-item \
+    --table-name notifications.tracking \
+    --item '{
+      "PK": {"S": "org1#e1"},
+      "SK": {"S": "notif#email#1234@gmail.com#n4"},
+      "attr1": {"S": "n4"},
+      "attr2": {"S": "e1"},
+      "attr3": {"S": "email"},
+      "attr4": {"S": "org1"},
+      "attr5": {"S": "1234@gmail.com"},
+      "attr6": {"S": "1234"},
+      "attr7": {"S": "enqueued"},
+      "attr8": {"S": "1727415918"},
+      "attr9": {"S": "1727415918"},
+      "attr10":{
+           "M": {
+                    "sender": {"S": "admin"},
+                    "priority": {"S": "high"},
+                     "retries": {"N": "2"}
+                     }
+      }
+    }'
+
+-------------------------------------------
+-------------------------------------------
+
+ awslocal dynamodb query \
+   --table-name notifications.tracking \
+   --key-condition-expression "PK = :pk AND begins_with(SK, :skPrefix)" \
+   --expression-attribute-values '{
+     ":pk": {"S": "org1#e1"},
+     ":skPrefix": {"S": "notif#inapp#"}
+   }'
+
+    awslocal dynamodb query \
+      --table-name notifications.tracking \
+      --key-condition-expression "PK = :pk AND begins_with(SK, :skPrefix)" \
+      --expression-attribute-values '{
+        ":pk": {"S": "org1#e1"},
+        ":skPrefix": {"S": "notif#email#"}
+      }'
